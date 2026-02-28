@@ -13,7 +13,7 @@ class Character_1(Character):
         self.count_mane_of_spell = [10, 20, 15]
         self.damage_of_spell = [10, 25, 5]
     def cast(self, spell, character):
-        if (random.randint(0,2) == 1) and (self.mana >= 0):
+        if (random.randint(0,2) == 1) and (self.mana > 0):
             for n in range(len(self.spell)):
                 if (self.spell[n] == spell):
                         self.mana = self.mana - self.count_mane_of_spell[n]
@@ -30,7 +30,7 @@ class Character_2(Character):
         self.count_mane_of_spell = [10, 15, 20]
         self.damage_of_spell = [0, 5, 25]
     def cast(self, spell, character):
-        if (random.randint(0,2) == 1) and (self.mana >= 0):
+        if (random.randint(0,2) == 1) and (self.mana > 0):
             for n in range(len(self.spell)):
                 if (self.spell[n] == spell):
                         self.mana = self.mana - self.count_mane_of_spell[n]
@@ -41,20 +41,22 @@ class Character_2(Character):
 fin = Character_1(100, 100)
 vir = Character_2(120, 100)
 attack = 0
-while (vir.hp > 0) and (fin.hp > 0):
+while (vir.hp > 0) and (fin.hp > 0) and ((fin.mana > 0) or (vir.mana > 0)):
+    fin_attack = random.choice(fin.spell)
+    vir_attack = random.choice(vir.spell)
     if (random.randint(0,1) == 1):
         attack = attack + 1
-        print(attack)
-        print(fin.cast("fireball", vir), ":fin mana", ",", vir.hp, ":vir HP")
-        print(vir.cast("flow", fin), ":vir mana", ",", fin.hp, ":fin HP")
+        print("ход", attack, "Fin")
+        print(fin_attack, fin.cast(fin_attack, vir), ":fin mana", ",", vir.hp, ":vir HP")
+        print(vir_attack, vir.cast(vir_attack, fin), ":vir mana", ",", fin.hp, ":fin HP")
     else:
         attack = attack + 1
-        print("ход", attack)
-        print(vir.cast("flow", fin), ":vir mana", ",", fin.hp, ":fin HP")
-        print(fin.cast("fireball", vir), ":fin mana", ",", vir.hp, ":vir HP")
-if (fin.hp == 0):
+        print("ход", attack, "Vir")
+        print(vir_attack, vir.cast(vir_attack, fin), ":vir mana", ",", fin.hp, ":fin HP")
+        print(fin_attack, fin.cast(fin_attack, vir), ":fin mana", ",", vir.hp, ":vir HP")
+if (fin.hp <= 0):
     print("Выйграл - Vir", "(за", attack, "ходов)")
-elif (vir.hp == 0):
+elif (vir.hp <= 0):
     print("Выйграл - Fin", "(за", attack, "ходов)")
 else:
     print("Ничья")
